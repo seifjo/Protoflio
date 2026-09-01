@@ -7,7 +7,7 @@ import {
   getPublishedProjects,
   getSettings,
 } from "@/lib/queries";
-import { absoluteUrl, isBlank } from "@/lib/utils";
+import { absoluteUrl } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
