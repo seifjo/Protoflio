@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Seif Kamel — Portfolio CMS
 
-## Getting Started
+A production-ready Flutter developer portfolio with a built-in Admin Dashboard. All projects, images, skills, and site content are managed from `/admin` — no source code edits required.
 
-First, run the development server:
+## Quick start (local)
+
+1. Create a free [Neon](https://neon.tech) PostgreSQL database
+2. Copy `.env.example` to `.env` and fill in `DATABASE_URL`
+3. Run:
 
 ```bash
+npm install
+npm run setup
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Public site:** http://localhost:3000
+- **Admin:** http://localhost:3000/admin
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Default admin login
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Field    | Value              |
+|----------|--------------------|
+| Email    | `admin@localhost`  |
+| Password | `ChangeMe123!`     |
 
-## Learn More
+Change these in `.env` before deploying.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy to Vercel (share with others)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Push to GitHub
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+git add .
+git commit -m "Portfolio CMS ready for deploy"
+git remote add origin https://github.com/YOUR_USERNAME/seif-portfolio.git
+git push -u origin main
+```
 
-## Deploy on Vercel
+### 2. Create Neon database
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Go to [neon.tech](https://neon.tech) → create a free project
+2. Copy the **connection string** (PostgreSQL)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Import to Vercel
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import your GitHub repository
+3. Add **Environment Variables**:
+
+| Variable | Value |
+|----------|-------|
+| `DATABASE_URL` | Your Neon PostgreSQL connection string |
+| `AUTH_SECRET` | Random string (`openssl rand -base64 32`) |
+| `ADMIN_EMAIL` | Your admin email |
+| `ADMIN_PASSWORD` | Strong password |
+| `ADMIN_NAME` | Seif Kamel |
+| `NEXT_PUBLIC_SITE_URL` | `https://YOUR-APP.vercel.app` (set after first deploy) |
+
+4. Click **Deploy**
+
+### 4. Enable file uploads (Vercel Blob)
+
+1. In your Vercel project → **Storage** → **Create Database** → **Blob**
+2. Connect it to your project — this auto-sets `BLOB_READ_WRITE_TOKEN`
+3. Redeploy
+
+Without Blob, uploads work locally but not on Vercel.
+
+### 5. Update site URL
+
+After deploy, set `NEXT_PUBLIC_SITE_URL` to your live URL (e.g. `https://seif-portfolio.vercel.app`) and redeploy.
+
+## What you can do from Admin
+
+1. Log in at `/admin`
+2. **Add Project** → fill all 12 sections
+3. Upload cover + screenshots (drag & drop, reorder, set cover)
+4. Add technologies, features, APK, video, live demo, GitHub, PDF
+5. Configure SEO + QR code
+6. **Save Draft** or **Publish**
+7. Project appears on Home, Work, and its case study page automatically
+
+## Tech stack
+
+- **Next.js 16** (App Router)
+- **Prisma + PostgreSQL** (Neon)
+- **Vercel Blob** (production file storage)
+- **JWT auth** (jose + bcrypt)
+- **Sharp** image optimization
+- **Tailwind CSS 4**
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run setup` | DB push + seed |
+| `npm run db:seed` | Re-seed database |
+| `npm run db:studio` | Open Prisma Studio |
+
+## Seeded projects
+
+1. Restaurant Management System *(published, featured)*
+2. BiteGo *(draft)*
+3. Clinic App *(draft)*
+4. Robot Control App *(draft)*
+5. Expense Tracker *(draft)*
+
+Edit all content from the admin dashboard.
