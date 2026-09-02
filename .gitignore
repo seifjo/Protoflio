@@ -33,15 +33,15 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+!.env.migrate.example
 
 # database
 /prisma/*.db
 /prisma/*.db-journal
 /prisma/dev.db
 
-# uploaded assets
-/public/uploads/**
-!/public/uploads/.gitkeep
+# uploaded assets are committed so /uploads/* works on Vercel without Blob migration
+# New uploads on the live admin use Vercel Blob (OIDC) automatically.
 
 # vercel
 .vercel
@@ -49,3 +49,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*
