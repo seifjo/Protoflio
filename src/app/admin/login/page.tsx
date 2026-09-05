@@ -1,11 +1,19 @@
+import { redirect } from "next/navigation";
 import { LoginForm } from "@/components/admin/LoginForm";
+import { getSession } from "@/lib/auth";
 
 type Props = {
   searchParams: Promise<{ from?: string }>;
 };
 
 export default async function AdminLoginPage({ searchParams }: Props) {
+  const session = await getSession();
   const { from } = await searchParams;
+  const destination = from?.startsWith("/admin") ? from : "/admin";
+
+  if (session) {
+    redirect(destination);
+  }
 
   return (
     <div className="grid min-h-screen place-items-center bg-[#07080c] px-5">
@@ -18,7 +26,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
           Manage projects, media, and site content.
         </p>
         <div className="mt-8">
-          <LoginForm from={from || "/admin"} />
+          <LoginForm from={destination} />
         </div>
       </div>
     </div>

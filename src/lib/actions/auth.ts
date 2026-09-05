@@ -12,24 +12,31 @@ import { prisma } from "@/lib/prisma";
 export async function loginAction(formData: FormData) {
   const email = String(formData.get("email") || "").trim();
   const password = String(formData.get("password") || "");
-  const from = String(formData.get("from") || "/admin");
 
   if (!email || !password) {
     return { error: "Email and password are required." };
   }
 
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user || !(await verifyPassword(password, user.password))) {
-    return { error: "Invalid email or password." };
-  }
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || !(await verifyPassword(password, user.password))) {
+      return { error: "Invalid email or password." };
+    }
 
-  const token = await createSessionToken({
-    userId: user.id,
-    email: user.email,
-    name: user.name,
-  });
-  await setSessionCookie(token);
-  redirect(from.startsWith("/admin") ? from : "/admin");
+    const token = await createSessionToken({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+    });
+    await setSessionCookie(token);
+    return { ok: true as const };
+  } catch (error) {
+    console.error("Login failed:", error);
+    return {
+      error:
+        "Sign in failed. Check AUTH_SECRET / DATABASE_URL on Vercel and try again.",
+    };
+  }
 }
 
 export async function logoutAction() {

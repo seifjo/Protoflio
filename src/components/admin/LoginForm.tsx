@@ -13,17 +13,19 @@ export function LoginForm({ from }: { from: string }) {
     event.preventDefault();
     setLoading(true);
     setError("");
+
     const formData = new FormData(event.currentTarget);
-    formData.set("from", from);
-    try {
-      const result = await loginAction(formData);
-      if (result?.error) {
-        setError(result.error);
-        setLoading(false);
-      }
-    } catch {
-      router.refresh();
+    const result = await loginAction(formData);
+
+    if (result?.error) {
+      setError(result.error);
+      setLoading(false);
+      return;
     }
+
+    const destination = from.startsWith("/admin") ? from : "/admin";
+    router.replace(destination);
+    router.refresh();
   }
 
   return (
@@ -36,6 +38,7 @@ export function LoginForm({ from }: { from: string }) {
           required
           autoComplete="username"
           className="admin-input"
+          defaultValue=""
         />
       </label>
       <label className="block">
