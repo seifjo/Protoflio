@@ -6,11 +6,12 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAdmin = pathname.startsWith("/admin");
   const isLogin = pathname === "/admin/login";
+  const isLoginApi = pathname === "/api/admin/login";
   const isProtectedApi =
-    pathname.startsWith("/api/upload") ||
-    pathname.startsWith("/api/admin");
+    (pathname.startsWith("/api/upload") || pathname.startsWith("/api/admin")) &&
+    !isLoginApi;
 
-  if ((!isAdmin && !isProtectedApi) || isLogin) {
+  if ((!isAdmin && !isProtectedApi) || isLogin || isLoginApi) {
     return NextResponse.next();
   }
 

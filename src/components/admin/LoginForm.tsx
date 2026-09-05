@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { loginAction } from "@/lib/actions/auth";
 
 export function LoginForm({ from }: { from: string }) {
   const router = useRouter();
@@ -14,18 +13,32 @@ export function LoginForm({ from }: { from: string }) {
     setLoading(true);
     setError("");
 
-    const formData = new FormData(event.currentTarget);
-    const result = await loginAction(formData);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const email = String(formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "");
 
-    if (result?.error) {
-      setError(result.error);
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        setError(payload.error || "Sign in failed.");
+        setLoading(false);
+        return;
+      }
+
+      const destination = from.startsWith("/admin") ? from : "/admin";
+      router.replace(destination);
+      router.refresh();
+    } catch {
+      setError("Network error while signing in. Please try again.");
       setLoading(false);
-      return;
     }
-
-    const destination = from.startsWith("/admin") ? from : "/admin";
-    router.replace(destination);
-    router.refresh();
   }
 
   return (
@@ -38,7 +51,6 @@ export function LoginForm({ from }: { from: string }) {
           required
           autoComplete="username"
           className="admin-input"
-          defaultValue=""
         />
       </label>
       <label className="block">
