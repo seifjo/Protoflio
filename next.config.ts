@@ -8,9 +8,8 @@ const nextConfig: NextConfig = {
   },
   images: {
     localPatterns: [
-      {
-        pathname: "/uploads/**",
-      },
+      { pathname: "/uploads/**" },
+      { pathname: "/profile/**" },
     ],
     remotePatterns: [
       {

@@ -34,38 +34,56 @@ export default async function HomePage() {
   return (
     <>
       <section className="hero-glow relative overflow-hidden border-b border-[var(--line)]">
-        <Container className="py-20 sm:py-28 lg:py-32">
-          <p className="mono text-[12px] tracking-[0.22em] text-[var(--accent)] uppercase">
-            {settings.heroLabel}
-          </p>
-          <h1 className="display mt-6 max-w-5xl text-6xl leading-[0.86] sm:text-8xl lg:text-[9rem]">
-            {settings.heroName}
-          </h1>
-          <div className="mt-8 max-w-xl space-y-1">
-            <p className="mono text-sm tracking-[0.22em] text-white uppercase">
-              {settings.heroRole}
+        <Container className="grid items-end gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:py-28">
+          <div>
+            <p className="mono text-[12px] tracking-[0.22em] text-[var(--accent)] uppercase">
+              {settings.heroLabel}
             </p>
-            <p className="mono text-sm tracking-[0.18em] text-[var(--muted)] uppercase">
-              {settings.heroSubtitle}
+            <h1 className="display mt-6 max-w-5xl text-6xl leading-[0.86] sm:text-8xl lg:text-[8.5rem]">
+              {settings.heroName}
+            </h1>
+            <div className="mt-8 max-w-xl space-y-1">
+              <p className="mono text-sm tracking-[0.22em] text-white uppercase">
+                {settings.heroRole}
+              </p>
+              <p className="mono text-sm tracking-[0.18em] text-[var(--muted)] uppercase">
+                {settings.heroSubtitle}
+              </p>
+            </div>
+            <p className="mono mt-8 text-[12px] tracking-[0.2em] text-[var(--dim)] uppercase">
+              {settings.heroMeta}
             </p>
+            <div className="mt-12 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/work"
+                className="inline-flex min-h-12 items-center justify-center bg-[var(--accent)] px-6 text-sm tracking-[0.14em] text-white uppercase transition hover:bg-[var(--accent-hover)]"
+              >
+                View work
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex min-h-12 items-center justify-center border border-[var(--line)] px-6 text-sm tracking-[0.14em] uppercase transition hover:border-white hover:text-white"
+              >
+                Get in touch
+              </Link>
+            </div>
           </div>
-          <p className="mono mt-8 text-[12px] tracking-[0.2em] text-[var(--dim)] uppercase">
-            {settings.heroMeta}
-          </p>
-          <div className="mt-12 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/work"
-              className="inline-flex min-h-12 items-center justify-center bg-[var(--accent)] px-6 text-sm tracking-[0.14em] text-white uppercase transition hover:bg-[var(--accent-hover)]"
-            >
-              View work
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex min-h-12 items-center justify-center border border-[var(--line)] px-6 text-sm tracking-[0.14em] uppercase transition hover:border-white hover:text-white"
-            >
-              Get in touch
-            </Link>
-          </div>
+          {settings.profileImage ? (
+            <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:justify-self-end">
+              <div className="absolute -inset-px bg-[linear-gradient(135deg,rgba(255,83,22,0.45),transparent_45%,rgba(255,255,255,0.08))]" />
+              <div className="relative overflow-hidden border border-[var(--line)] bg-[#0a0d14]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={settings.profileImage}
+                  alt={settings.name}
+                  className="aspect-[4/5] w-full object-cover object-top"
+                />
+              </div>
+              <p className="mono mt-3 text-[10px] tracking-[0.18em] text-[var(--dim)] uppercase">
+                {settings.name} · {settings.jobTitle}
+              </p>
+            </div>
+          ) : null}
         </Container>
       </section>
 

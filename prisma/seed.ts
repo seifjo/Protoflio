@@ -32,7 +32,7 @@ async function main() {
       bio: "Flutter developer building mobile and cross-platform applications.",
       availability: "Available for work",
       available: true,
-      email: "",
+      email: "Seifjo223@gmail.com",
       heroLabel: "flutter build • live",
       heroName: "SEIF KAMEL",
       heroRole: "FLUTTER DEVELOPER",
@@ -40,9 +40,20 @@ async function main() {
       heroMeta: "FREELANCE • REMOTE • HYBRID",
       aboutText: ABOUT_TEXT,
       footerText: "Seif Kamel — Flutter Developer",
+      profileImage: "/profile/seif-kamel.webp",
+      ogImage: "/profile/seif-kamel.webp",
       seoTitle: "Seif Kamel — Flutter Developer",
       seoDescription:
         "Portfolio of Seif Kamel, a Flutter developer building mobile and cross-platform applications.",
+    },
+  });
+
+  await prisma.siteSettings.update({
+    where: { id: "default" },
+    data: {
+      profileImage: "/profile/seif-kamel.webp",
+      ogImage: "/profile/seif-kamel.webp",
+      email: "Seifjo223@gmail.com",
     },
   });
 

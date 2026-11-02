@@ -22,40 +22,49 @@ const plex = IBM_Plex_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSettings();
-  const title = settings.seoTitle || `${settings.name} — ${settings.jobTitle}`;
-  const description =
-    settings.seoDescription ||
-    settings.bio ||
-    `${settings.name}, ${settings.jobTitle}.`;
-  const siteUrl = getSiteUrl();
-  const og = settings.ogImage || settings.profileImage;
+  try {
+    const settings = await getSettings();
+    const title = settings.seoTitle || `${settings.name} — ${settings.jobTitle}`;
+    const description =
+      settings.seoDescription ||
+      settings.bio ||
+      `${settings.name}, ${settings.jobTitle}.`;
+    const siteUrl = getSiteUrl();
+    const og =
+      settings.ogImage || settings.profileImage || "/profile/seif-kamel.webp";
 
-  return {
-    metadataBase: new URL(siteUrl),
-    title: {
-      default: title,
-      template: `%s — ${settings.name}`,
-    },
-    description,
-    icons: {
-      icon: isBlank(settings.favicon) ? "/favicon.svg" : settings.favicon,
-    },
-    openGraph: {
-      title,
+    return {
+      metadataBase: new URL(siteUrl),
+      title: {
+        default: title,
+        template: `%s — ${settings.name}`,
+      },
       description,
-      url: siteUrl,
-      siteName: settings.name,
-      type: "website",
-      images: og ? [{ url: og }] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: og ? [og] : undefined,
-    },
-  };
+      icons: {
+        icon: isBlank(settings.favicon) ? "/favicon.svg" : settings.favicon,
+      },
+      openGraph: {
+        title,
+        description,
+        url: siteUrl,
+        siteName: settings.name,
+        type: "website",
+        images: [{ url: og }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [og],
+      },
+    };
+  } catch {
+    return {
+      title: "Seif Kamel — Flutter Developer",
+      description:
+        "Portfolio of Seif Kamel, a Flutter developer building mobile and cross-platform applications.",
+    };
+  }
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
