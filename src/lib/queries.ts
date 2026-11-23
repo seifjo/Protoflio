@@ -2,6 +2,7 @@ import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import { prisma } from "./prisma";
 
+
 export const projectInclude = {
   images: { orderBy: { sortOrder: "asc" as const } },
   features: { orderBy: { sortOrder: "asc" as const } },
@@ -11,9 +12,12 @@ export const projectInclude = {
   files: true,
 };
 
+
 const DEFAULT_ABOUT = `I build cross-platform applications with Flutter, focusing on clean architecture, backend integration and practical user experiences.
 
+
 I work across mobile product development — from local-first databases and REST APIs to Firebase and Supabase backends — and I care about shipping software that is structured, maintainable, and useful.`;
+
 
 export const FALLBACK_SETTINGS = {
   id: "default",
@@ -39,6 +43,7 @@ export const FALLBACK_SETTINGS = {
   updatedAt: new Date(),
 };
 
+
 const FALLBACK_SKILLS = [
   { id: "1", name: "Flutter", category: "Mobile", icon: "", proficiency: "label", displayType: "label", sortOrder: 0 },
   { id: "2", name: "Dart", category: "Mobile", icon: "", proficiency: "label", displayType: "label", sortOrder: 1 },
@@ -54,6 +59,7 @@ const FALLBACK_SKILLS = [
   { id: "12", name: "GitHub", category: "Tools", icon: "", proficiency: "label", displayType: "label", sortOrder: 1 },
 ];
 
+
 const FALLBACK_SOCIALS = [
   {
     id: "gh",
@@ -66,12 +72,13 @@ const FALLBACK_SOCIALS = [
   {
     id: "li",
     platform: "LinkedIn",
-    url: "https://www.linkedin.com/in/seif-kamel-240572298",
+    url: "https://www.linkedin.com/in/seif-k-business-6a2153451",
     label: "LinkedIn",
     sortOrder: 1,
     visible: true,
   },
 ];
+
 
 async function safeQuery<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
   try {
@@ -81,6 +88,7 @@ async function safeQuery<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
     return fallback;
   }
 }
+
 
 export const getSettings = cache(async () => {
   return safeQuery(async () => {
@@ -96,6 +104,7 @@ export const getSettings = cache(async () => {
       },
     });
 
+
     return {
       ...settings,
       profileImage: settings.profileImage || "/profile/seif-kamel.webp",
@@ -104,6 +113,7 @@ export const getSettings = cache(async () => {
     };
   }, FALLBACK_SETTINGS);
 });
+
 
 export const getPublishedProjects = cache(async () => {
   noStore();
@@ -118,6 +128,7 @@ export const getPublishedProjects = cache(async () => {
   );
 });
 
+
 export const getFeaturedProject = cache(async () => {
   noStore();
   return safeQuery(
@@ -131,6 +142,7 @@ export const getFeaturedProject = cache(async () => {
   );
 });
 
+
 export async function getProjectBySlug(slug: string, includeDrafts = false) {
   noStore();
   return safeQuery(
@@ -143,6 +155,7 @@ export async function getProjectBySlug(slug: string, includeDrafts = false) {
   );
 }
 
+
 export const getSkills = cache(async () => {
   return safeQuery(
     () =>
@@ -153,6 +166,7 @@ export const getSkills = cache(async () => {
   );
 });
 
+
 export const getSocialLinks = cache(async () => {
   return safeQuery(async () => {
     const links = await prisma.socialLink.findMany({
@@ -162,6 +176,7 @@ export const getSocialLinks = cache(async () => {
     return links.length ? links : FALLBACK_SOCIALS;
   }, FALLBACK_SOCIALS);
 });
+
 
 export async function getDashboardStats() {
   return safeQuery(async () => {
@@ -185,11 +200,13 @@ export async function getDashboardStats() {
   });
 }
 
+
 export function coverImage(
   project: { images: { url: string; isCover: boolean; altText: string }[] },
 ) {
   return project.images.find((image) => image.isCover) ?? project.images[0] ?? null;
 }
+
 
 export function projectLink(
   project: { links: { kind: string; url: string; label: string }[] },
@@ -197,6 +214,7 @@ export function projectLink(
 ) {
   return project.links.find((link) => link.kind === kind && link.url.trim()) ?? null;
 }
+
 
 export function projectFile(
   project: {
@@ -220,7 +238,8 @@ export function projectFile(
   );
 }
 
+
 export function fileHref(file: { fileUrl: string; externalUrl: string } | null) {
   if (!file) return "";
   return file.fileUrl.trim() || file.externalUrl.trim();
-}
+   }
