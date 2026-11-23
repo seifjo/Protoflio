@@ -46,6 +46,13 @@ export default async function ContactPage() {
                 {item.label || item.platform}
               </a>
             ))}
+            <a
+              href="/Seif-Kamel-CV.pdf"
+              download
+              className="block text-[var(--muted)] hover:text-white"
+            >
+              Download CV (PDF)
+            </a>
           </div>
         </div>
         <ContactForm />
