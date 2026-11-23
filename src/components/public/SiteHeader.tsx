@@ -43,7 +43,8 @@ export function SiteHeader({ name, availability, available }: Props) {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[rgba(7,8,12,0.86)] backdrop-blur-md">
+    <>
+      <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[rgba(7,8,12,0.86)] backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:h-[72px] sm:px-8">
         <Link href="/" className="group flex items-center gap-3">
           <span className="grid h-8 w-8 place-items-center border border-[var(--line)] text-[11px] font-medium tracking-[0.18em] text-[var(--accent)]">
@@ -100,13 +101,16 @@ export function SiteHeader({ name, availability, available }: Props) {
         </div>
       </div>
 
+      </header>
+
       {open ? (
-        <div className="fixed inset-0 top-16 z-40 bg-[#07080c] md:hidden">
+        <div className="fixed inset-x-0 bottom-0 top-16 z-[39] overflow-y-auto bg-[#07080c] md:hidden">
           <nav className="flex flex-col gap-2 px-6 py-10">
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => setOpen(false)}
                 className="display border-b border-[var(--line)] py-4 text-4xl"
               >
                 {link.label}
@@ -115,6 +119,6 @@ export function SiteHeader({ name, availability, available }: Props) {
           </nav>
         </div>
       ) : null}
-    </header>
+    </>
   );
 }
