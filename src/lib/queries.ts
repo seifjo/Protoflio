@@ -72,7 +72,7 @@ const FALLBACK_SOCIALS = [
   {
     id: "li",
     platform: "LinkedIn",
-    url: "https://www.linkedin.com/in/seif-k-business-6a2153451",
+    url: "https://www.linkedin.com/in/seif-kamel-6a2153451/",
     label: "LinkedIn",
     sortOrder: 1,
     visible: true,
@@ -242,4 +242,4 @@ export function projectFile(
 export function fileHref(file: { fileUrl: string; externalUrl: string } | null) {
   if (!file) return "";
   return file.fileUrl.trim() || file.externalUrl.trim();
-   }
+}
