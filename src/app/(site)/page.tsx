@@ -66,6 +66,13 @@ export default async function HomePage() {
               >
                 Get in touch
               </Link>
+              <a
+                href="/Seif-Kamel-CV.pdf"
+                download
+                className="inline-flex min-h-12 items-center justify-center border border-[var(--line)] px-6 text-sm tracking-[0.14em] uppercase transition hover:border-white hover:text-white"
+              >
+                Download CV
+              </a>
             </div>
           </div>
           {settings.profileImage ? (
